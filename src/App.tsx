@@ -1,10 +1,10 @@
 import './App.css';
+import Header from './components/Header';
 
 const App = () => {
   return (
-    <div className="content">
-      <h1>Rsbuild with React</h1>
-      <p>Start building amazing things with Rsbuild.</p>
+    <div className="content bg-secondary text-primary">
+      <Header />
     </div>
   );
 };
