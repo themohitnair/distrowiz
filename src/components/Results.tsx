@@ -99,7 +99,7 @@ const Results: React.FC = () => {
                     <div className="flex flex-col items-center mr-6 w-1/4 border-r-white">
                         <img src={distros[distro]?.iconPath || 'distro-icons/ubuntu.png'} alt={`${distro} logo`} className="w-24 h-24 mb-2"/>
                         <h3 className="distro-name text-xl font-bold text-center">{distro}</h3>
-                        <a href={distros[distro]?.website} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline text-sm mt-2">
+                        <a href={distros[distro]?.website} target="_blank" rel="noopener noreferrer" className="text-white hover:underline text-sm mt-2">
                             Visit Website
                         </a>
                     </div>
@@ -112,6 +112,6 @@ const Results: React.FC = () => {
             ))}
         </div>
     );
-  };
-  
-  export default Results;
+};
+
+export default Results;
