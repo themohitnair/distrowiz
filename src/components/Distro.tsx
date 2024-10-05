@@ -11,7 +11,7 @@ const Distro: React.FC<DistroProps> = ({ path, distro, subreddit }) => {
 
     return (
         <a href={subredditUrl} target="_blank" rel="noopener noreferrer" className="block no-underline">
-            <div className="distro w-36 flex flex-col items-center">
+            <div className="distro w-40 flex flex-col items-center m-auto">
                 <img src={path} alt={distro} className="w-full h-auto" />
                 <div className="name text-center mt-2">{distro}</div>
             </div>
