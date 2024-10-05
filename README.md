@@ -1,2 +1,2 @@
-# distrokinator
-Select the distro that fits your needs and wants using distrokinator!
+# DistroWiz
+Select the distro that fits your needs and wants using DistroWiz!
