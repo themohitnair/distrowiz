@@ -88,7 +88,7 @@ const Results: React.FC = () => {
     const { topDistros = [] } = location.state || {};
   
     if (topDistros.length === 0) {
-      return <div className="text-center text-gray-500">No results to show. Please try again.</div>;
+      return <div className="text-center text-gray-500 mt-10">No results to show. Please try again.</div>;
     }
   
     return (
