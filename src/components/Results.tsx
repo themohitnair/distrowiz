@@ -95,15 +95,15 @@ const Results: React.FC = () => {
         <div className="results-container max-w-4xl mx-auto px-4 py-8">
             <h2 className="text-3xl font-bold mb-6 text-center">Recommended Distributions</h2>
             {topDistros.map((distro: string) => (
-                <div key={distro} className="result-item flex items-start mb-8 p-6 bg-black border border-white rounded-sm shadow-lg">
-                    <div className="flex flex-col items-center mr-6 w-1/4 border-r-white">
+                <div key={distro} className="result-item flex flex-col md:flex-row items-start mb-8 p-6 bg-black border border-white rounded-sm shadow-lg">
+                    <div className="flex flex-col items-center mr-6 w-full md:w-1/4 border-r-white mb-4 md:mb-0">
                         <img src={distros[distro]?.iconPath || 'distro-icons/ubuntu.png'} alt={`${distro} logo`} className="w-24 h-24 mb-2"/>
                         <h3 className="distro-name text-xl font-bold text-center">{distro}</h3>
                         <a href={distros[distro]?.website} target="_blank" rel="noopener noreferrer" className="text-white hover:underline text-sm mt-2">
                             Visit Website
                         </a>
                     </div>
-                    <div className="w-3/4">
+                    <div className="w-full md:w-3/4">
                         <p className="distro-description text-gray-300">
                             {distros[distro]?.description || 'No description available.'}
                         </p>

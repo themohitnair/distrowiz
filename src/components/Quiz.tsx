@@ -117,7 +117,7 @@ const Quiz: React.FC = () => {
                 />
             ))}
             <div className="submit w-full mt-10 flex justify-center items-center">
-                <button onClick={handleSubmit} className="w-3/4 rounded-sm border text-center border-sm px-5 py-2 hover:bg-white hover:text-black mb-20">
+                <button onClick={handleSubmit} className="w-full md:w-3/4 rounded-sm border text-center border-sm px-5 py-2 hover:bg-white hover:text-black mb-20">
                     Submit
                 </button>
             </div>

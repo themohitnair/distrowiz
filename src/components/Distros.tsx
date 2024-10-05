@@ -26,11 +26,11 @@ const Distros: React.FC = () => {
     };
 
     return (
-    <div className="distros w-3/4 m-auto mt-16 grid grid-cols-6 lg:grid-cols-5 gap-6">
-        {Object.entries(distros).map(([distro, info]) => (
-        <Distro key={distro} distro={distro} path={info.path} subreddit={info.subreddit} />
-        ))}
-    </div>
+        <div className="distros w-full md:w-3/4 m-auto mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+            {Object.entries(distros).map(([distro, info]) => (
+                <Distro key={distro} distro={distro} path={info.path} subreddit={info.subreddit} />
+            ))}
+        </div>
     );
 }
 

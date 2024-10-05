@@ -15,10 +15,10 @@ const Home: React.FC = () => {
         <Distros/>
         <About/>  
         <div className="butt mt-10 flex justify-center items-center">
-            <Link to="/quiz" className="m-auto px-5 py-2 w-3/4 mb-10 bg-black text-white border border-white rounded-sm hover:bg-white hover:text-black text-center">
-            Begin
+            <Link to="/quiz" className="m-auto px-5 py-2 w-full md:w-3/4 mb-10 bg-black text-white border border-white rounded-sm hover:bg-white hover:text-black text-center">
+                Begin
             </Link>  
-        </div> 
+        </div>
         </>
     )
 
