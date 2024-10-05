@@ -4,11 +4,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'primary': '#ffff00',
-        'secondary': '#000000'
+        'primary': '#ffffff',
+        'secondary': '#000000',
+        'tertiary': '#ffff00'
       },
       fontFamily: {
-        ubuntu: ['Ubuntu', 'monospace']
+        fira: ['Fira', 'monospace']
       }
     },
   },

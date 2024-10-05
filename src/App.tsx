@@ -1,11 +1,21 @@
 import './App.css';
 import Header from './components/Header';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './components/Home';
+import Quiz from './components/Quiz';
+
 
 const App = () => {
   return (
-    <div className="content bg-secondary text-primary">
-      <Header />
-    </div>
+    <Router>
+      <div className="content bg-secondary text-primary">
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/quiz" element={<Quiz />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 
