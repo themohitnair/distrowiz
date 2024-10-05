@@ -2,6 +2,7 @@
   "name": "rsbuild-react-ts",
   "private": true,
   "version": "1.0.0",
+  "homepage": "https://themohitnair.github.io/distrowiz",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
