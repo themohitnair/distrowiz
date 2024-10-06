@@ -20,7 +20,7 @@ const Quiz: React.FC = () => {
       },
     },
     {
-      question: "How comfortable are you with the command line?",
+      question: "How comfortable are you with having to learn the command line?",
       options: [
         "Excited to learn",
         "A bit nervous but willing",
