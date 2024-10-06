@@ -1,5 +1,4 @@
 import Question from "./Question";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -80,17 +79,24 @@ const Quiz: React.FC = () => {
     ];
 
     const navigate = useNavigate();
-    const [answers, setAnswers] = useState<(string | null)[]>(new Array(questions.length).fill(null));
+    const [answers, setAnswers] = useState<string[][]>(new Array(questions.length).fill([]));
 
     const handleOptionSelect = (questionIndex: number, selectedOption: string) => {
         const newAnswers = [...answers];
-        newAnswers[questionIndex] = selectedOption;
+        const currentAnswers = newAnswers[questionIndex];
+        
+        if (currentAnswers.includes(selectedOption)) {
+            newAnswers[questionIndex] = currentAnswers.filter(option => option !== selectedOption);
+        } else {
+            newAnswers[questionIndex] = [...currentAnswers, selectedOption];
+        }
+        
         setAnswers(newAnswers);
     };
 
     const handleSubmit = () => {
-        if (answers.some(answer => answer === null)) {
-            alert('Answer all questions before submitting.');
+        if (answers.some(answer => answer.length === 0)) {
+            alert('Please answer all questions before submitting.');
             return;
         }
 
@@ -100,7 +106,7 @@ const Quiz: React.FC = () => {
             .filter(([_, score]) => score === highestScore)
             .map(([distro, _]) => distro);
 
-        console.log(scores)
+        console.log(scores);
 
         navigate('/results', { state: { topDistros } });
     };
@@ -108,13 +114,7 @@ const Quiz: React.FC = () => {
     return (
         <div className="quiz">
             {questions.map((q, index) => (
-                <Question 
-                    key={index} 
-                    question={q.question} 
-                    options={q.options}
-                    selectedOption={answers[index]}
-                    onSelect={(option: string) => handleOptionSelect(index, option)}
-                />
+                <Question key={index} question={q.question} options={q.options} selectedOptions={answers[index]} onSelect={(option: string) => handleOptionSelect(index, option)}/>
             ))}
             <div className="submit w-full mt-10 flex justify-center items-center">
                 <button onClick={handleSubmit} className="w-full md:w-3/4 rounded-sm border text-center border-sm px-5 py-2 hover:bg-white hover:text-black mb-20">
@@ -125,97 +125,99 @@ const Quiz: React.FC = () => {
     );
 };
 
-function calculateScores(answers: (string | null)[]): Record<string, number> {
-    const distros = ["Arch", "Ubuntu", "Fedora", "Kali", "Mint", "Debian", "PopOS", "Manjaro", "NixOS", "Gentoo", "ElementaryOS", "CentOS", "Endeavour", "Zorin", "Suse"];
+function calculateScores(answers: string[][]): Record<string, number> {
+  const distros = ["Arch", "Ubuntu", "Fedora", "Kali", "Mint", "Debian", "PopOS", "Manjaro", "NixOS", "Gentoo", "ElementaryOS", "CentOS", "Endeavour", "Zorin", "Suse"];
     
-    const scores: Record<string, number> = distros.reduce((acc, distro) => {
-        acc[distro] = 0;
-        return acc;
-    }, {} as Record<string, number>);
+  const scores: Record<string, number> = distros.reduce((acc, distro) => {
+      acc[distro] = 0;
+      return acc;
+  }, {} as Record<string, number>);
 
-    answers.forEach((answer, index) => {
-        if (answer === null) return;
+  answers.forEach((answerSet, index) => {
+      const scoreIncrement = 2 / answerSet.length;
 
-        switch (index) {
-            case 0:
-                if (answer === "Learning") scores.Ubuntu += 2, scores.Mint += 2;
-                if (answer === "Development") scores.Fedora += 2, scores.PopOS += 2;
-                if (answer === "Gaming") scores.Manjaro += 2, scores.PopOS += 2;
-                if (answer === "Privacy/Security") scores.Kali += 2, scores.Debian += 2;
-                break;
-            case 1: 
-                if (answer === "Very comfortable") scores.Arch += 2, scores.Gentoo += 2;
-                if (answer === "Not comfortable" || answer === "I have never used one") scores.Ubuntu += 2, scores.Mint += 2;
-                break;
-            case 2:
-                if (answer === "Simple and clean") scores.ElementaryOS += 2;
-                if (answer === "Feature-rich and customizable") scores.Manjaro += 2;
-                if (answer === "Similar to Windows") scores.Zorin += 2, scores.Mint += 2;
-                if (answer === "Similar to macOS") scores.ElementaryOS += 2;
-                break;
-            case 3:
-                if (answer === "Daily" || answer === "Weekly") scores.Arch += 2, scores.Fedora += 2;
-                if (answer === "Monthly" || answer === "I prefer stability over new features") scores.Ubuntu += 2, scores.Debian += 2;
-                break;
-            case 4: 
-                if (answer === "Yes, I need many tools") scores.Fedora += 2, scores.Ubuntu += 2;
-                break;
-            case 5: 
-                if (answer === "Office applications") scores.Ubuntu += 2, scores.Mint += 2;
-                if (answer === "Creative software (graphics, video)") scores.Ubuntu += 2, scores.Fedora += 2;
-                if (answer === "Programming tools") scores.Fedora += 2, scores.PopOS += 2;
-                if (answer === "Gaming") scores.Manjaro += 2, scores.PopOS += 2;
-                break;
-            case 6:
-                if (answer === "Yes, a printer or scanner") scores.Ubuntu += 2, scores.Mint += 2;
-                if (answer === "Yes, gaming hardware") scores.Manjaro += 2, scores.PopOS += 2;
-                break;
-            case 7:
-                if (answer === "Very important") scores.Ubuntu += 2, scores.Arch += 2;
-                if (answer === "I prefer official support") scores.Ubuntu += 2, scores.Fedora += 2;
-                break;
-            case 8: 
-                if (answer === "I prefer the latest features") scores.Arch += 2, scores.Fedora += 2;
-                if (answer === "Stability is more important") scores.Debian += 2, scores.Ubuntu += 2;
-                break;
-            case 9: 
-                if (answer === "Yes, I want full control") scores.Arch += 2, scores.Gentoo += 2;
-                if (answer === "No, I want it to work out of the box") scores.Ubuntu += 2, scores.Mint += 2;
-                break;
-            case 10:
-                if (answer === "Beginner") scores.Ubuntu += 2, scores.Mint += 2;
-                if (answer === "Expert") scores.Arch += 2, scores.Gentoo += 2;
-                break;
-            case 11:
-                if (answer === "Yes, I want everything ready") scores.Ubuntu += 2, scores.Mint += 2;
-                if (answer === "No, I prefer to choose myself") scores.Arch += 2, scores.Gentoo += 2;
-                break;
-            case 12:
-                if (answer === "Yes, I need many options") scores.Ubuntu += 2, scores.Fedora += 2;
-                if (answer === "No, I prefer simplicity") scores.ElementaryOS += 2;
-                break;
-            case 13:
-                if (answer === "Very important") scores.Kali += 2, scores.Debian += 2;
-                break;
-            case 14: 
-                if (answer === "Yes, I play frequently") scores.Manjaro += 2, scores.PopOS += 2;
-                break;
-            case 15: 
-                if (answer === "I prefer traditional package managers") scores.Debian += 2, scores.Ubuntu += 2;
-                if (answer === "I like newer technologies like Flatpak/Snap") scores.Fedora += 2, scores.PopOS += 2;
-                if (answer === "I want to compile from source") scores.Gentoo += 2;
-                break;
-            case 16:
-                if (answer === "Rolling release") scores.Arch += 2, scores.Manjaro += 2;
-                if (answer === "Fixed release") scores.Ubuntu += 2, scores.Debian += 2;
-                break;
-            case 17:
-                if (answer === "Very important") scores.Debian += 2, scores.Fedora += 2;
-                break;
-        }
-    });
+      answerSet.forEach((answer) => {
+          switch (index) {
+              case 0:
+                  if (answer === "Learning") scores.Ubuntu += scoreIncrement, scores.Mint += scoreIncrement;
+                  if (answer === "Development") scores.Fedora += scoreIncrement, scores.PopOS += scoreIncrement;
+                  if (answer === "Gaming") scores.Manjaro += scoreIncrement, scores.PopOS += scoreIncrement;
+                  if (answer === "Privacy/Security") scores.Kali += scoreIncrement, scores.Debian += scoreIncrement;
+                  break;
+              case 1: 
+                  if (answer === "Very comfortable") scores.Arch += scoreIncrement, scores.Gentoo += scoreIncrement;
+                  if (answer === "Not comfortable" || answer === "I have never used one") scores.Ubuntu += scoreIncrement, scores.Mint += scoreIncrement;
+                  break;
+              case 2:
+                  if (answer === "Simple and clean") scores.ElementaryOS += scoreIncrement;
+                  if (answer === "Feature-rich and customizable") scores.Manjaro += scoreIncrement;
+                  if (answer === "Similar to Windows") scores.Zorin += scoreIncrement, scores.Mint += scoreIncrement;
+                  if (answer === "Similar to macOS") scores.ElementaryOS += scoreIncrement;
+                  break;
+              case 3:
+                  if (answer === "Daily" || answer === "Weekly") scores.Arch += scoreIncrement, scores.Fedora += scoreIncrement;
+                  if (answer === "Monthly" || answer === "I prefer stability over new features") scores.Ubuntu += scoreIncrement, scores.Debian += scoreIncrement;
+                  break;
+              case 4: 
+                  if (answer === "Yes, I need many tools") scores.Fedora += scoreIncrement, scores.Ubuntu += scoreIncrement;
+                  break;
+              case 5: 
+                  if (answer === "Office applications") scores.Ubuntu += scoreIncrement, scores.Mint += scoreIncrement;
+                  if (answer === "Creative software (graphics, video)") scores.Ubuntu += scoreIncrement, scores.Fedora += scoreIncrement;
+                  if (answer === "Programming tools") scores.Fedora += scoreIncrement, scores.PopOS += scoreIncrement;
+                  if (answer === "Gaming") scores.Manjaro += scoreIncrement, scores.PopOS += scoreIncrement;
+                  break;
+              case 6:
+                  if (answer === "Yes, a printer or scanner") scores.Ubuntu += scoreIncrement, scores.Mint += scoreIncrement;
+                  if (answer === "Yes, gaming hardware") scores.Manjaro += scoreIncrement, scores.PopOS += scoreIncrement;
+                  break;
+              case 7:
+                  if (answer === "Very important") scores.Ubuntu += scoreIncrement, scores.Arch += scoreIncrement;
+                  if (answer === "I prefer official support") scores.Ubuntu += scoreIncrement, scores.Fedora += scoreIncrement;
+                  break;
+              case 8: 
+                  if (answer === "I prefer the latest features") scores.Arch += scoreIncrement, scores.Fedora += scoreIncrement;
+                  if (answer === "Stability is more important") scores.Debian += scoreIncrement, scores.Ubuntu += scoreIncrement;
+                  break;
+              case 9: 
+                  if (answer === "Yes, I want full control") scores.Arch += scoreIncrement, scores.Gentoo += scoreIncrement;
+                  if (answer === "No, I want it to work out of the box") scores.Ubuntu += scoreIncrement, scores.Mint += scoreIncrement;
+                  break;
+              case 10:
+                  if (answer === "Beginner") scores.Ubuntu += scoreIncrement, scores.Mint += scoreIncrement;
+                  if (answer === "Expert") scores.Arch += scoreIncrement, scores.Gentoo += scoreIncrement;
+                  break;
+              case 11:
+                  if (answer === "Yes, I want everything ready") scores.Ubuntu += scoreIncrement, scores.Mint += scoreIncrement;
+                  if (answer === "No, I prefer to choose myself") scores.Arch += scoreIncrement, scores.Gentoo += scoreIncrement;
+                  break;
+              case 12:
+                  if (answer === "Yes, I need many options") scores.Ubuntu += scoreIncrement, scores.Fedora += scoreIncrement;
+                  if (answer === "No, I prefer simplicity") scores.ElementaryOS += scoreIncrement;
+                  break;
+              case 13:
+                  if (answer === "Very important") scores.Kali += scoreIncrement, scores.Debian += scoreIncrement;
+                  break;
+              case 14: 
+                  if (answer === "Yes, I play frequently") scores.Manjaro += scoreIncrement, scores.PopOS += scoreIncrement;
+                  break;
+              case 15: 
+                  if (answer === "I prefer traditional package managers") scores.Debian += scoreIncrement, scores.Ubuntu += scoreIncrement;
+                  if (answer === "I like newer technologies like Flatpak/Snap") scores.Fedora += scoreIncrement, scores.PopOS += scoreIncrement;
+                  if (answer === "I want to compile from source") scores.Gentoo += scoreIncrement;
+                  break;
+              case 16:
+                  if (answer === "Rolling release") scores.Arch += scoreIncrement, scores.Manjaro += scoreIncrement;
+                  if (answer === "Fixed release") scores.Ubuntu += scoreIncrement, scores.Debian += scoreIncrement;
+                  break;
+              case 17:
+                  if (answer === "Very important") scores.Debian += scoreIncrement, scores.Fedora += scoreIncrement;
+                  break;
+          }
+      });
+  });
 
-    return scores;
+  return scores;
 }
 
 export default Quiz

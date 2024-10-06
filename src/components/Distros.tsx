@@ -22,11 +22,12 @@ const Distros: React.FC = () => {
         CentOS: { path: 'distro-icons/centos.png', subreddit: 'centos' },
         EndeavourOS: { path: 'distro-icons/endeavour.png', subreddit: 'EndeavourOS' },  
         Zorin: { path: 'distro-icons/zorin.png', subreddit: 'zorinos' },
-        OpenSUSE: { path: 'distro-icons/suse.png', subreddit: 'openSUSE' },       
+        OpenSUSE: { path: 'distro-icons/suse.png', subreddit: 'openSUSE' }, 
+        Void: { path: 'distro-icons/void.png', subreddit: 'voidlinux' },
     };
 
     return (
-        <div className="distros w-full md:w-3/4 m-auto mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div className="distros w-full md:w-3/4 m-auto mt-16 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-6">
             {Object.entries(distros).map(([distro, info]) => (
                 <Distro key={distro} distro={distro} path={info.path} subreddit={info.subreddit} />
             ))}
