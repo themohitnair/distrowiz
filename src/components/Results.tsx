@@ -81,6 +81,12 @@ const distros: Record<string, { iconPath: string, description: string, website: 
         description: 'SUSE Linux is a stable, enterprise-ready distribution known for its reliability in corporate environments. It offers excellent support for cloud, container, and enterprise systems. SUSE is also available as an open-source version called openSUSE, which is suitable for general desktop use.',
         website: 'https://suse.com',
     },
+    Void: {
+        iconPath: 'distro-icons/void.png',
+        description: 'Void Linux is an independent, rolling release distribution known for its simplicity and efficiency. It uses the runit init system for faster boot times and offers both glibc and musl libc variants. Void is designed for users who value performance and control, making it an excellent choice for both desktops and servers. Its package manager, xbps, provides a user-friendly experience for managing software and system updates. Void Linux aims to provide a minimalist yet powerful environment for users who prefer a hands-on approach.',
+        website: 'https://voidlinux.org',
+    },
+    
 };
 
 const Results: React.FC = () => {

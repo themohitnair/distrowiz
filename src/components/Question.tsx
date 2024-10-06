@@ -10,18 +10,10 @@ interface QuestionProps {
 
 const Question: React.FC<QuestionProps> = ({ question, options, selectedOptions, onSelect, contextLink }) => {
     return (
-        <div className="question border border-white px-3 py-5 mt-10 w-full md:w-4/5 lg:w-3/4 m-auto rounded-sm">
+        <div className="question border border-white px-3 pt-5 mt-10 w-full md:w-4/5 lg:w-3/4 m-auto rounded-sm">
             <div className="text-2xl px-3 mb-2">
                 {question}
-            </div>
-
-            {contextLink && (
-                <div className="mt-2 mb-5">
-                    <a href={contextLink.url} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline hover:text-blue-700">
-                        {contextLink.text}
-                    </a>
-                </div>
-            )}
+            </div>            
 
             <ul className="pt-5">
                 {options.map((option, index) => (
@@ -30,6 +22,16 @@ const Question: React.FC<QuestionProps> = ({ question, options, selectedOptions,
                     </li>
                 ))}
             </ul>
+
+            <div className="text-2xl px-3 mt-5">
+                {contextLink && (
+                    <div className="mt-2 mb-5">
+                        <a href={contextLink.url} target="_blank" rel="noopener noreferrer" className="text-xl text-blue-400 hover:underline">
+                            {contextLink.text}
+                        </a>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

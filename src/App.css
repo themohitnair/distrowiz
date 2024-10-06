@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Fira';
-  src: url('/public/fonts/fira.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-}
-
 html, body {
-  @apply bg-secondary text-primary font-fira
+  @apply bg-secondary text-primary font-mono
 }
