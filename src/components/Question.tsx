@@ -17,7 +17,7 @@ const Question: React.FC<QuestionProps> = ({ question, options, selectedOptions,
 
             <ul className="pt-5">
                 {options.map((option, index) => (
-                    <li key={index} className={`option border-white text-lg md:text-xl rounded-sm border mt-3 px-3 py-2 cursor-pointer transition-all duration-300 ${selectedOptions.includes(option) ? 'bg-white text-black' : ''} hover:scale-105 hover:shadow-lg`} onClick={() => onSelect(option)}>
+                    <li key={index} className={`option border-white bg-black text-lg md:text-xl rounded-sm border mt-3 px-3 py-2 cursor-pointer transition-all duration-300 ${selectedOptions.includes(option) ? 'bg-white text-black' : ''} hover:scale-105 hover:shadow-lg`} onClick={() => onSelect(option)}>
                         {option}
                     </li>
                 ))}
